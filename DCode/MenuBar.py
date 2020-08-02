@@ -1,4 +1,5 @@
 import tkinter as tk
+from tkinter.filedialog import *
 from DCode.About import About
 from DCode.FontSettings import FontSettings
 from DCode.Settings import Settings

@@ -6,4 +6,4 @@ _A simple text editor built using python's TKinter_
 ### Needed Modules
 > Tkinter
 
-**_PyInstaller is used to convert the py 'file' to 'exe'_**
+**_PyInstaller is used to convert the py 'file' to 'exe'_** 

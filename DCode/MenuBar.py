@@ -8,6 +8,7 @@ class MenuBar(tk.Frame):
 	def __init__(self, parent, *args, **kwargs):
 		self.parent = parent
 		self.textarea = args[0]
+		self.fileInstance = args[1]
 		menu = tk.Menu(self.parent)
 
 		# File Menu
@@ -51,8 +52,8 @@ class MenuBar(tk.Frame):
 		self.parent.bind("<Control-o>", self.openFile)
 
 	def newFile(self, *args, **kwargs):
-		self.main.filename = None
-		self.parent.title(f"DCode - { self.main.filename }")
+		self.fileInstance.filename = None
+		self.parent.title(f"DCode - { self.fileInstance.filename }")
 		self.textarea.delete(0.0, END)
 
 	def saveAs(self, *args, **kwargs):
@@ -61,14 +62,13 @@ class MenuBar(tk.Frame):
 
 		if file:
 			file.write(content.rstrip())
-			self.main.isChanged = False
-			self.parent.title(f"DCode - { self.main.filename }")
+			self.parent.title(f"DCode - { self.fileInstance.filename }")
 
 	def openFile(self, *args, **kwargs):
 		file = askopenfile(mode='r')
 		if file:
 			self.parent.title(f"DCode - {file.name}")
-			self.parent.filename = file.name
+			self.fileInstance.filename = file.name
 			content = file.read()
 			self.textarea.delete(0.0, END)
 			self.textarea.insert(0.0, content)
@@ -76,11 +76,10 @@ class MenuBar(tk.Frame):
 	def saveFile(self, *args, **kwargs):
 		try:
 			content = self.textarea.get(0.0, END)
-			file = open(self.main.filename, 'w')
+			file = open(self.fileInstance.filename, 'w')
 			file.write(content)
 			file.close()
-			self.main.isChanged = False
-			self.parent.title(f"DCode - { self.main.filename }")
+			self.parent.title(f"DCode - { self.fileInstance.filename }")
 		except:
 			self.saveAs()
 

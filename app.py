@@ -1,6 +1,7 @@
 import tkinter as tk
 from DCode.MenuBar import MenuBar
 from DCode.LineNumbersField import TextLineNumbers, CustomText
+from DCode.FileInstance import FileInstance
 import tkinter.font as tkfont
 import os.path
 import json
@@ -12,9 +13,9 @@ __email__ = "danielshan.balico@gmail.com"
 class MainApplication(tk.Frame):
 	def __init__(self, parent, *args, **kwargs):
 		tk.Frame.__init__(self, parent, *args, **kwargs)
+		self.fileInstance = FileInstance()
 		self.parent = parent
 		self.parent.call('wm', 'iconphoto', root._w, tk.PhotoImage(file='icon.png'))
-		self.filename = None
 		if os.path.exists("config.json"):
 			with open("config.json", 'r') as f: 
 				self.config = json.loads(f.read())
@@ -34,7 +35,7 @@ class MainApplication(tk.Frame):
 
 		# Window Settings
 		self.parent.geometry("800x600")
-		self.parent.title(f"DCode - { self.filename }")
+		self.parent.title(f"DCode - { self.fileInstance.filename }")
  
 		self.parent.bind("<FocusIn>", self.checkModified)
 
@@ -65,7 +66,7 @@ class MainApplication(tk.Frame):
 		self.textarea.bind("<Configure>", self._on_change)
 
 		# MenuBar
-		self.menubar = MenuBar(self.parent, self.textarea)
+		self.menubar = MenuBar(self.parent, self.textarea, self.fileInstance)
 
 		# For Syntax HighLighting
 		self.updater()
@@ -78,7 +79,7 @@ class MainApplication(tk.Frame):
 		self.linenumbers.redraw()
 
 	def textModified(self, event):
-		self.parent.title(f"DCode - { self.filename }*")
+		self.parent.title(f"DCode - { self.fileInstance.filename }*")
 
 	def updater(self):
 		# Text Highlighting 

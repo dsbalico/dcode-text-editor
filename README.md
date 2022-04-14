@@ -1,4 +1,4 @@
-# DCode
+# DCode - Text Editor
 _A simple text editor built using python's TKinter_
 
 > The application is in the 'dist' folder
